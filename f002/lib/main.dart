@@ -23,6 +23,7 @@ class MyApp extends StatelessWidget {
   }
 }
 
+//시각장애인
 class ScaffoldSample extends StatefulWidget {
   @override
   _ScaffoldSampleState createState() => _ScaffoldSampleState();
@@ -83,7 +84,8 @@ class _ScaffoldSampleState extends State<ScaffoldSample> {
           //int result1 = await audioPlayer.stop();
 
           play() async {
-            int result = await audioPlayer.play(audio_path);
+            int result = await audioPlayer.play(
+                'http://220.69.209.111:8000/media/uploads/music/start.mp3');
 
             if (result == 1) {
               // success
@@ -105,80 +107,3 @@ class _ScaffoldSampleState extends State<ScaffoldSample> {
     );
   }
 }
-/*
-class MyButtons extends StatefulWidget {
-  const MyButtons({Key? key, required this.title}) : super(key: key);
-  final String title;
-
-  @override
-  State<MyButtons> createState() => _MyButtons();
-}
-
-class _MyButtons extends State<MyButtons> {
-  @override
-  Widget build(BuildContext context) {
-    Navigator.of(context)
-        .push(MaterialPageRoute(builder: (context) => ScaffoldSample()));
-
-    return Scaffold(
-      body: Center(
-        child: Column(
-          children: <Widget>[
-            Expanded(
-              flex: 1,
-              child: Container(
-                height: 500,
-                width: 500,
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: TextButton(
-                        onPressed: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => ScaffoldSample()));
-                        },
-                        child: Text(
-                          '시각장애인',
-                          style: TextStyle(fontSize: 30.0),
-                        ),
-                        style: TextButton.styleFrom(
-                            primary: Colors.black, minimumSize: Size(0, 500)),
-                      ),
-                    ),
-                  ],
-                ),
-                color: Color.fromARGB(255, 84, 143, 182),
-              ),
-            ),
-            Expanded(
-              flex: 1,
-              child: Container(
-                  height: 500,
-                  width: 500,
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: TextButton(
-                          onPressed: () {
-                            Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => ()));
-                          },
-                          child: Text(
-                            '청각장애인',
-                            style: TextStyle(fontSize: 30.0),
-                          ),
-                          style: TextButton.styleFrom(
-                              primary: Colors.black, minimumSize: Size(0, 500)),
-                        ),
-                      ),
-                    ],
-                  ),
-                  color: Color.fromARGB(255, 231, 91, 91)),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-*/
