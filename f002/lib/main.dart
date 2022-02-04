@@ -1,8 +1,11 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
-//import "package:http/http.dart" as htpp;
+import 'package:http/http.dart' as http;
+import 'package:just_audio/just_audio.dart';
 
+//http://220.69.209.111:8000/
 void main() {
   runApp(const MyApp());
 }
@@ -57,11 +60,53 @@ class _ScaffoldSampleState extends State<ScaffoldSample> {
       ),
       onTap: () async {
         image = await _picker.pickImage(source: ImageSource.camera);
+        /*if (image != null) {
+          setState(() {
+            temp = File(image!.path);
+          });
+        }*/
+        var request = http.MultipartRequest(
+            'POST', Uri.parse('http://220.69.209.111:8000/media/'));
+        request.files
+            .add(await http.MultipartFile.fromPath('image', image!.path));
+
+        http.StreamedResponse response = await request.send();
+
+        if (response.statusCode == 200) {
+          var text = await response.stream.bytesToString();
+          Map<String, dynamic> responseJson = jsonDecode(text);
+          var audio_path = responseJson['audio_path'];
+          var response_text = responseJson['text'];
+          print(audio_path);
+          print(response_text);
+
+          final player = AudioPlayer();
+          var duration = await player.setUrl('audio_path');
+
+          // ignore: todo
+          //TODO audio_path 의 url 에 접속하면 오디오 파일이 있음. 이 파일을 가져와서 플레이 시켜보기
+
+        } else {
+          print(response.reasonPhrase);
+        }
+        /*
+        var request = http.MultipartRequest(
+            'POST', Uri.parse('http://220.69.209.111:8000/media/'));
+        request.files
+            .add(await http.MultipartFile.fromPath('image', image!.path));
+
+        http.StreamedResponse response = await request.send();
+        if (response.statusCode == 200) {
+          print(await response.stream.bytesToString());
+        } else {
+          print(response.reasonPhrase);
+        }
+
         if (image != null) {
           setState(() {
             temp = File(image!.path);
           });
-        }
+        },*/
       },
     );
   }
@@ -81,7 +126,6 @@ class _MyButtons extends State<MyButtons> {
     return Scaffold(
       body: Center(
         child: Column(
-          //mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Expanded(
               flex: 1,
