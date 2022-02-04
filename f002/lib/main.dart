@@ -1,66 +1,141 @@
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'dart:io';
+//import "package:http/http.dart" as htpp;
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget{
+class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    //final randomWord = WordPair.random();
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
+      title: 'hackathon',
+      home: MyButtons(
+        title: 'main',
       ),
-      home: ScaffoldSample(),
     );
   }
 }
 
-class ScaffoldSample extends StatefulWidget{
+class ScaffoldSample extends StatefulWidget {
   @override
   _ScaffoldSampleState createState() => _ScaffoldSampleState();
-  
 }
 
-class _ScaffoldSampleState extends State<ScaffoldSample>{
+class _ScaffoldSampleState extends State<ScaffoldSample> {
+  late ImagePicker _picker;
+  XFile? image = null;
+  late File temp;
+
+  @override
+  void initState() {
+    _picker = ImagePicker();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-
-          title: Text
-        ("해커톤 테스트",
-        style: TextStyle(color: Colors.black),),
-        backgroundColor: Colors.grey,
-      ),
-
-      body: Center(
-        child: Text("시각 장애인분들을 위한 어플",style: TextStyle(fontSize: 20),),
-      ),
-
-      drawer: Drawer(
-        child: Center(
-          child: Text("슬라이드 메뉴"),
+    return GestureDetector(
+      child: Scaffold(
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              image == null
+                  ? Text(
+                      '화면터치',
+                      style: TextStyle(fontSize: 41),
+                    )
+                  : Image.file(temp)
+            ],
+          ),
         ),
       ),
+      onTap: () async {
+        image = await _picker.pickImage(source: ImageSource.camera);
+        if (image != null) {
+          setState(() {
+            temp = File(image!.path);
+          });
+        }
+      },
+    );
+  }
+}
 
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: 0,
-        onTap: (index){
-          print(index);
-        },
-        backgroundColor: Colors.white,
-        items: <BottomNavigationBarItem>[
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
-          BottomNavigationBarItem(icon: Icon(Icons.mail), label: "Test1"),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: "Test2")
-        ],
+class MyButtons extends StatefulWidget {
+  const MyButtons({Key? key, required this.title}) : super(key: key);
+  final String title;
+
+  @override
+  State<MyButtons> createState() => _MyButtons();
+}
+
+class _MyButtons extends State<MyButtons> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: Column(
+          //mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Expanded(
+              flex: 1,
+              child: Container(
+                height: 500,
+                width: 500,
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: TextButton(
+                        onPressed: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => ScaffoldSample()));
+                        },
+                        child: Text(
+                          '시각장애인',
+                          style: TextStyle(fontSize: 30.0),
+                        ),
+                        style: TextButton.styleFrom(
+                            primary: Colors.black, minimumSize: Size(0, 300)),
+                      ),
+                    ),
+                  ],
+                ),
+                color: Color.fromARGB(255, 84, 143, 182),
+              ),
+            ),
+            Expanded(
+              flex: 1,
+              child: Container(
+                  height: 500,
+                  width: 500,
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: TextButton(
+                          onPressed: () {
+                            print('청각장애인');
+                          },
+                          child: Text(
+                            '청각장애인',
+                            style: TextStyle(fontSize: 30.0),
+                          ),
+                          style: TextButton.styleFrom(
+                              primary: Colors.black, minimumSize: Size(0, 300)),
+                        ),
+                      ),
+                    ],
+                  ),
+                  color: Color.fromARGB(255, 231, 91, 91)),
+            ),
+          ],
+        ),
       ),
     );
-
   }
 }
