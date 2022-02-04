@@ -5,7 +5,8 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:audioplayers/audioplayers.dart';
 
-//http://220.69.209.111:8000/
+//http://220.69.209.111:8000/media/uploads/music/start.mp3
+
 void main() {
   runApp(const MyApp());
 }
@@ -17,9 +18,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'hackathon',
-      home: MyButtons(
-        title: 'main',
-      ),
+      home: ScaffoldSample(),
     );
   }
 }
@@ -44,6 +43,10 @@ class _ScaffoldSampleState extends State<ScaffoldSample> {
   Widget build(BuildContext context) {
     return GestureDetector(
       child: Scaffold(
+        appBar: AppBar(
+          title: Text('Do_not_worry'),
+          backgroundColor: Colors.red,
+        ),
         body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -60,13 +63,9 @@ class _ScaffoldSampleState extends State<ScaffoldSample> {
       ),
       onTap: () async {
         image = await _picker.pickImage(source: ImageSource.camera);
-        /*if (image != null) {
-          setState(() {
-            temp = File(image!.path);
-          });
-        }*/
+
         var request = http.MultipartRequest(
-            'POST', Uri.parse('http://220.69.209.111:8000/media/'));
+            'POST', Uri.parse('http://220.69.209.111:8000/image/'));
         request.files
             .add(await http.MultipartFile.fromPath('image', image!.path));
 
@@ -81,8 +80,11 @@ class _ScaffoldSampleState extends State<ScaffoldSample> {
           print(response_text);
 
           AudioPlayer audioPlayer = AudioPlayer();
+          //int result1 = await audioPlayer.stop();
+
           play() async {
             int result = await audioPlayer.play(audio_path);
+
             if (result == 1) {
               // success
               print("succ");
@@ -103,7 +105,7 @@ class _ScaffoldSampleState extends State<ScaffoldSample> {
     );
   }
 }
-
+/*
 class MyButtons extends StatefulWidget {
   const MyButtons({Key? key, required this.title}) : super(key: key);
   final String title;
@@ -115,6 +117,9 @@ class MyButtons extends StatefulWidget {
 class _MyButtons extends State<MyButtons> {
   @override
   Widget build(BuildContext context) {
+    Navigator.of(context)
+        .push(MaterialPageRoute(builder: (context) => ScaffoldSample()));
+
     return Scaffold(
       body: Center(
         child: Column(
@@ -137,7 +142,7 @@ class _MyButtons extends State<MyButtons> {
                           style: TextStyle(fontSize: 30.0),
                         ),
                         style: TextButton.styleFrom(
-                            primary: Colors.black, minimumSize: Size(0, 300)),
+                            primary: Colors.black, minimumSize: Size(0, 500)),
                       ),
                     ),
                   ],
@@ -155,14 +160,15 @@ class _MyButtons extends State<MyButtons> {
                       Expanded(
                         child: TextButton(
                           onPressed: () {
-                            print('청각장애인');
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => ()));
                           },
                           child: Text(
                             '청각장애인',
                             style: TextStyle(fontSize: 30.0),
                           ),
                           style: TextButton.styleFrom(
-                              primary: Colors.black, minimumSize: Size(0, 300)),
+                              primary: Colors.black, minimumSize: Size(0, 500)),
                         ),
                       ),
                     ],
@@ -175,3 +181,4 @@ class _MyButtons extends State<MyButtons> {
     );
   }
 }
+*/

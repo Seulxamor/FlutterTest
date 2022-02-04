@@ -45,5 +45,7 @@
 		<true/>
 		<key>UIStatusBarHidden</key>
 		<false/>
+		<key>NSMicrophoneUsageDescription</key>
+		<string>Microphone access required</string>
 	</dict>
 </plist>
