@@ -24,6 +24,7 @@ class MyApp extends StatelessWidget {
   }
 }
 
+//시각장애인
 class ScaffoldSample extends StatefulWidget {
   @override
   _ScaffoldSampleState createState() => _ScaffoldSampleState();
@@ -104,6 +105,45 @@ class _ScaffoldSampleState extends State<ScaffoldSample> {
   }
 }
 
+//청각장애인
+class ScaffoldSample_two extends StatefulWidget {
+  @override
+  _ScaffoldSample_twoState createState() => _ScaffoldSample_twoState();
+}
+
+class _ScaffoldSample_twoState extends State<ScaffoldSample_two> {
+
+  //0은 꺼져있는상태
+  int state = 0;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: IconButton(
+          icon: Icon(Icons.mic),
+          color: Colors.black,
+          iconSize: 130.0,
+          onPressed: () {
+            //실행전일때
+            if (state == 0){
+              state=1;
+              print("ON");
+
+            }
+            //실행중일때
+            else {
+              state=0;
+              print("OFF");
+            }
+          },
+        ),
+      ),
+    );
+  }
+}
+
+//홈위젯
 class MyButtons extends StatefulWidget {
   const MyButtons({Key? key, required this.title}) : super(key: key);
   final String title;
@@ -155,7 +195,8 @@ class _MyButtons extends State<MyButtons> {
                       Expanded(
                         child: TextButton(
                           onPressed: () {
-                            print('청각장애인');
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => ScaffoldSample_two()));
                           },
                           child: Text(
                             '청각장애인',
