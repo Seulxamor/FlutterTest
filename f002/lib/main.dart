@@ -7,6 +7,20 @@ import 'package:audioplayers/audioplayers.dart';
 
 //http://220.69.209.111:8000/media/uploads/music/start.mp3
 
+AudioPlayer audioPlayer2 = AudioPlayer();
+
+play2() async {
+  int result = await audioPlayer2
+      .play('http://220.69.209.111:8000/media/uploads/music/start.mp3');
+
+  if (result == 1) {
+    // success
+    print("succ");
+  } else {
+    print("se");
+  }
+}
+
 void main() {
   runApp(const MyApp());
 }
@@ -18,7 +32,11 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'hackathon',
-      home: ScaffoldSample(),
+      home: ScaffoldSample(
+
+          //int result1 = await audioPlayer.stop();
+
+          ),
     );
   }
 }
@@ -42,6 +60,7 @@ class _ScaffoldSampleState extends State<ScaffoldSample> {
 
   @override
   Widget build(BuildContext context) {
+    play2();
     return GestureDetector(
       child: Scaffold(
         appBar: AppBar(
@@ -54,8 +73,11 @@ class _ScaffoldSampleState extends State<ScaffoldSample> {
             children: <Widget>[
               image == null
                   ? Text(
-                      '화면터치',
-                      style: TextStyle(fontSize: 41),
+                      '화면 터치',
+                      style: TextStyle(
+                        fontSize: 41,
+                        fontFamily: 'Jua',
+                      ),
                     )
                   : Image.file(temp)
             ],
@@ -84,8 +106,7 @@ class _ScaffoldSampleState extends State<ScaffoldSample> {
           //int result1 = await audioPlayer.stop();
 
           play() async {
-            int result = await audioPlayer.play(
-                'http://220.69.209.111:8000/media/uploads/music/start.mp3');
+            int result = await audioPlayer.play(audio_path);
 
             if (result == 1) {
               // success
