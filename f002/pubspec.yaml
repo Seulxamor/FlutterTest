@@ -28,12 +28,12 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   
-fonts:
-    - family: Jua
-      fonts:
-      - asset: assets/font/Jua-Regular.ttf
-        weight: 500
+  fonts:
+      - family: Jua
+        fonts:
+        - asset: assets/font/Jua-Regular.ttf
+          
         
 
 flutter_native_splash:
-  color: "#613EEA"
+  color: "#FF5C4B"

@@ -5,19 +5,18 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:audioplayers/audioplayers.dart';
 
-//http://220.69.209.111:8000/media/uploads/music/start.mp3
-
+AudioPlayer audioPlayer1 = AudioPlayer();
 AudioPlayer audioPlayer2 = AudioPlayer();
 
-play2() async {
-  int result = await audioPlayer2
+//시작 시 출력 되는 음성 가이드 함수
+play() async {
+  int result = await audioPlayer1
       .play('http://220.69.209.111:8000/media/uploads/music/start.mp3');
 
   if (result == 1) {
-    // success
-    print("succ");
+    print("success");
   } else {
-    print("se");
+    print("error");
   }
 }
 
@@ -31,23 +30,19 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'hackathon',
-      home: ScaffoldSample(
-
-          //int result1 = await audioPlayer.stop();
-
-          ),
+      title: 'Do_not_worry',
+      home: scanFun(), //시작 화면을 지정
     );
   }
 }
 
-//시각장애인
-class ScaffoldSample extends StatefulWidget {
+//시각장애인 분들을 위한 기능 (책이나 문서 등을 스캔하여 서버에 전달)
+class scanFun extends StatefulWidget {
   @override
-  _ScaffoldSampleState createState() => _ScaffoldSampleState();
+  _scanFunState createState() => _scanFunState();
 }
 
-class _ScaffoldSampleState extends State<ScaffoldSample> {
+class _scanFunState extends State<scanFun> {
   late ImagePicker _picker;
   XFile? image = null;
   late File temp;
@@ -60,12 +55,18 @@ class _ScaffoldSampleState extends State<ScaffoldSample> {
 
   @override
   Widget build(BuildContext context) {
-    play2();
+    play();
     return GestureDetector(
       child: Scaffold(
         appBar: AppBar(
-          title: Text('Do_not_worry'),
-          backgroundColor: Colors.red,
+          title: Text(
+            'Do_not_worry',
+            style: TextStyle(
+              fontSize: 18,
+              fontFamily: 'Jua',
+            ),
+          ),
+          backgroundColor: Color.fromARGB(255, 240, 55, 22),
         ),
         body: Center(
           child: Column(
@@ -75,7 +76,7 @@ class _ScaffoldSampleState extends State<ScaffoldSample> {
                   ? Text(
                       '화면 터치',
                       style: TextStyle(
-                        fontSize: 41,
+                        fontSize: 50,
                         fontFamily: 'Jua',
                       ),
                     )
@@ -102,25 +103,17 @@ class _ScaffoldSampleState extends State<ScaffoldSample> {
           print(audio_path);
           print(response_text);
 
-          AudioPlayer audioPlayer = AudioPlayer();
-          //int result1 = await audioPlayer.stop();
-
-          play() async {
-            int result = await audioPlayer.play(audio_path);
+          play2() async {
+            int result = await audioPlayer2.play(audio_path);
 
             if (result == 1) {
-              // success
-              print("succ");
+              print("success");
             } else {
-              print("se");
+              print("error");
             }
           }
 
-          play();
-
-          // ignore: todo
-          //TODO audio_path 의 url 에 접속하면 오디오 파일이 있음. 이 파일을 가져와서 플레이 시켜보기
-
+          play2();
         } else {
           print(response.reasonPhrase);
         }
@@ -128,3 +121,5 @@ class _ScaffoldSampleState extends State<ScaffoldSample> {
     );
   }
 }
+
+mixin FF5C4B {}
